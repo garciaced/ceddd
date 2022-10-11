@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Tables</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <style>
+    body {
+      /*background-color: #7AC1D5;*/
+      background-image: linear-gradient(to right, #9cd3a3, #86d1b3, #78cdc2, #74c8ce, #7ac1d5);
+    }
+    .container {
+      box-shadow: 0 0 15px;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+    }
+    h1 {
+      text-align: center;
+      margin:80px 0px;
+      font-family: arial;
+      font-weight: 800;
+    }
+    .form-group {
+      margin:20px 0 ;
+    }
+    label {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+   <h1>Masterlist</h1>
+    <div id="employeeTable"></div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Student Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name">
+          </div>
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age">
+          </div>
+           <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script> 
+  <script>
+    const employees = [
+        {id:1, name:'Aberilla John Joel', age:'22', address:'Kawit Cavite'},
+        {id:2, name:'Castillo Juan Christopher', age:'22', address:'Kawit Cavite'},
+        {id:3, name:'De Leon Rodnie', age:'25', address:'Tanza Cavite'},
+        {id:4, name:'Isla Marcus', age:'22', address:'Cavite City'},
+        {id:5, name:'Jabas Princess Claire', age:'20', address:'Kawit Cavite'},
+        {id:6, name:'Manila John Paolo', age:'25', address:'Kawit cavite'},
+        {id:7, name:'Magsino Manuelito', age:'28', address:'Noveleta Cavite'},
+        {id:8, name:'Matro Derick', age:'22', address:'Noveleta Cavite'},
+        {id:9, name:'Rodolfo Angel', age:'22', address:'Cavite City'},
+        {id:10, name:'Santos Cedrick', age:'22', address:'Kawit Cavite'},
+        {id:11, name:'Serrano Allan', age:'22', address:'Kawit Cavite'},
+        {id:12, name:'Santonil Ezra', age:'23', address:'Noveleta Cavite'},
+		{id:13, name:'Santos Christian', age:'23', address:'Kawit Cavite'},
+
+		];
+
+    function displayEmployees() {
+      var mytable = `
+                  <div class="container">
+                    <table id="myTable" class="table table-striped">
+                      <thead>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th>Option</th>
+                      </thead>
+                      <tbody>
+                        `;
+        for (var employee of employees) {  
+              mytable += "<tr><td>" + employee.name + "</td><td>" + employee.age + "</td><td>" + employee.address + `</td><td><button class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModalCenter" onclick='log(`+ employee.id +`)'>Show Info.</button></td></tr>`; 
+        }
+
+        mytable += `
+                  </tbody>
+                </table>
+                </div>`;
+        document.getElementById("employeeTable").innerHTML = mytable;
+
+    }
+    displayEmployees();
+
+    function log(id) {
+      let employee = employees.filter((i) => i.id == id)
+          $("#exampleModal").modal();
+          assignValueToInput(employee);
+    }
+
+    function assignValueToInput(employee) {
+          document.getElementById('name').value = employee[0].name;
+          document.getElementById('age').value = employee[0].age;
+          document.getElementById('address').value = employee[0].address;
+    }
+  </script>
+   <script>
+    $(document).ready( function () {
+      $('#myTable').DataTable();
+      } );
+  </script>
+
+  
+
+
+</body>
+</html>
